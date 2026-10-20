@@ -1,0 +1,10 @@
+node_modules
+dist
+screenshots
+backend/*.db*
+backend/.env
+**/__pycache__
+**/.pytest_cache
+test-results
+.env
+.git
