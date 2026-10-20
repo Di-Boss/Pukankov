@@ -1,0 +1,38 @@
+# Dependencies and compiled output
+node_modules/
+dist/
+*.tsbuildinfo
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Local configuration, credentials and persistent runtime data
+.env
+.env.*
+!.env.example
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.pem
+*.key
+secrets.h
+secrets.json
+
+# Generated verification artifacts
+.test-artifacts/
+.pytest_cache/
+.coverage
+htmlcov/
+test-results/
+playwright-report/
+screenshots/
+*.log
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
