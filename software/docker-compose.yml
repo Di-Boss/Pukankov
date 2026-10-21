@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: pukankov
+      POSTGRES_DB: pukankov
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your .env}
+    volumes:
+      - cinema_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pukankov -d pukankov"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://pukankov:${POSTGRES_PASSWORD}@db:5432/pukankov
+      ENVIRONMENT: development
+      PUBLIC_ORIGIN: http://127.0.0.1:8000
+      PAYMENT_MODE: simulation
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  cinema_data:
