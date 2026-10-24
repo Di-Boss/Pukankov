@@ -1,0 +1,110 @@
+export type Movie = {
+  id: number;
+  title: string;
+  slug: string;
+  original_title: string;
+  description: string;
+  year: number;
+  duration: number;
+  genres: string[];
+  director: string;
+  cast: string[];
+  age: string;
+  language: string;
+  subtitles: string;
+  poster: string;
+  backdrop: string;
+  trailer: string;
+  rating: number;
+  rating_count: number;
+  release_date: string;
+  status: string;
+  featured: boolean;
+  is_demo: boolean;
+};
+export type Cinema = {
+  id: number;
+  name: string;
+  slug: string;
+  city: string;
+  address: string;
+  description: string;
+  image: string;
+};
+export type Showtime = {
+  id: number;
+  movie_id: number;
+  movie: Movie;
+  cinema: Cinema;
+  auditorium_id: number;
+  auditorium: string;
+  starts_at: string;
+  date: string;
+  time: string;
+  price: number;
+  format: string;
+  cancelled: boolean;
+};
+export type User = {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  deletion_requested: boolean;
+};
+export type Seat = {
+  id: number;
+  row: string;
+  number: number;
+  category: string;
+  price: number;
+  status: string;
+  accessible: boolean;
+};
+export type Hold = {
+  id: string;
+  expires_at: string;
+  server_time: string;
+  status: string;
+  showtime: Showtime;
+  items: Seat[];
+  total: number;
+};
+export type TicketItem = {
+  seat_id: number;
+  row: string;
+  number: number;
+  category: string;
+  price: number;
+  ticket_id: string;
+  ticket_code: string;
+  used_at: string | null;
+};
+export type Booking = {
+  id: string;
+  status: string;
+  total: number;
+  discount: number;
+  currency: string;
+  is_demo: boolean;
+  created_at: string;
+  showtime: Showtime;
+  items: TicketItem[];
+  events: { status: string; created_at: string }[];
+};
+export type Offer = {
+  id: number;
+  code: string;
+  title: string;
+  percent: number;
+  minimum: number;
+  ends_at: string;
+  per_user: number;
+  max_uses: number;
+};
+export type MovieList = {
+  items: Movie[];
+  total: number;
+  page: number;
+  page_size: number;
+};
