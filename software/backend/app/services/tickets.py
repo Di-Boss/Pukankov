@@ -1,6 +1,6 @@
 import secrets
 from fastapi import HTTPException
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.exc import IntegrityError
 from ..db import utcnow
 from ..models import Ticket, Booking, Showtime, SeatClaim, Seat, Movie, AuditLog
@@ -39,7 +39,7 @@ def validate_ticket(db, code, showtime_id, actor_user_id, auditorium_id=None):
         }
     booking = db.get(Booking, t.booking_id)
     show = db.get(Showtime, booking.showtime_id)
-    if show.id != showtime_id or (
+    if (showtime_id is not None and show.id != showtime_id) or (
         auditorium_id is not None and show.auditorium_id != auditorium_id
     ):
         return {
@@ -65,7 +65,17 @@ def validate_ticket(db, code, showtime_id, actor_user_id, auditorium_id=None):
             "reason": "already_used",
             "message": "Билетът вече е използван.",
         }
-    t.used_at = utcnow()
+    # SQLite does not implement SELECT FOR UPDATE. The conditional update also
+    # makes consumption atomic there, as well as under PostgreSQL row locks.
+    consumed = db.execute(
+        update(Ticket)
+        .where(Ticket.id == t.id, Ticket.used_at.is_(None))
+        .values(used_at=utcnow())
+        .execution_options(synchronize_session=False)
+    )
+    if consumed.rowcount != 1:
+        return {"valid": False, "reason": "already_used", "message": "Билетът вече е използван."}
+    db.expire(t, ["used_at"])
     claim = db.get(SeatClaim, t.claim_id)
     seat = db.get(Seat, claim.seat_id)
     db.add(AuditLog(user_id=actor_user_id, action="ticket.validate", object_id=t.id))

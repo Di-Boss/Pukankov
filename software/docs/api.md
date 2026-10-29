@@ -41,6 +41,8 @@
 
 Bearer маршрути за kiosk/validator са описани в [devices.md](devices.md). Използват същите резервационни и билетни услуги и наличност като сайта. Поддържан е и `POST /api/validator/validate`.
 
+Публичният device gateway на порт 8002 публикува HTTPS API през тунел. Продажбеният поток е `/devices/movies` → `/devices/showtimes` → `/devices/showtimes/{id}/seats` → `/devices/bookings/holds` → `/devices/payments/checkout`. Последната заявка приема `hold_id`, JSON boolean `payment_success` и опционални `terms`/`promo_code`. RFID обработката е на ESP32; UID и баланс не се изпращат. Подробен договор: [public-device-api.md](public-device-api.md). Тези маршрути са различни от уеб `/payments/checkout` по-горе.
+
 ## Администрация
 
 Всички `/admin/*` изискват admin, дори при директни API заявки.

@@ -2,6 +2,8 @@
 
 Сайтът, автоматът и входният контрол използват една FastAPI услуга и една база. Няма директно изпращане на билети между устройствата. Сървърът определя наличността, цената, плащането и дали билетът вече е използван.
 
+Публичен HTTPS достъп, избор на филм/час/място и резултат от ESP32 без UID или баланс: [public-device-api.md](public-device-api.md).
+
 ## Ключове
 
 От `backend/`, след миграциите:
@@ -18,10 +20,10 @@ python -m app.device_cli revoke DEVICE_ID
 
 ## Продажба от автомат
 
-1. `GET /api/v1/devices/showtimes` — актуални прожекции и ID.
+1. `GET /api/v1/devices/movies` → `GET /api/v1/devices/showtimes?movie_id=ID` — филми, часове, дати и свободни места.
 2. `GET /api/v1/devices/showtimes/SHOWTIME_ID/seats` — seat ID и наличност.
 3. `POST /api/v1/devices/bookings/holds` с `{"showtime_id":123,"seat_ids":[41]}` — връща `id` на задържането за 5 минути. Местата са общи със сайта.
-4. `POST /api/v1/devices/payments/checkout` с `{"hold_id":"HOLD_ID","terms":true,"transaction_success":true}`.
+4. `POST /api/v1/devices/payments/checkout` с `{"hold_id":"HOLD_ID","payment_success":true}` след успешно локално четене на ESP32. Картови данни не се изпращат.
 5. При `success:true` покажи/отпечатай `tickets[].ticket_code`. За един билет има и `ticket_code`. При изгубен отговор повтори със същия hold ID: поръчката и кодовете са същите.
 
 Примерен резултат:
@@ -32,27 +34,29 @@ python -m app.device_cli revoke DEVICE_ID
   "booking_id": "...",
   "status": "confirmed",
   "movie": "Последната орбита",
-  "showtime": "2026-10-28T17:00:00+00:00",
+  "showtime": "19:00",
+  "date": "2026-10-28",
+  "starts_at": "2026-10-28T17:00:00+00:00",
   "tickets": [{ "ticket_code": "482617", "seat": "A1", "status": "valid" }],
   "ticket_code": "482617"
 }
 ```
 
-`transaction_success:false` или липсващо поле отказва учебната транзакция и освобождава местата: `success:false`, `status:"cancelled"`, празни `tickets`. Започни нов hold за нов опит. Не се обработват банкови карти или реални средства.
+`payment_success:false` връща отказана поръчка без билети и освобождава местата. Първият записан резултат за hold е окончателен; повторението връща същата поръчка. Няма карта/UID или баланс в API. Уеб картовият симулатор е отделен.
 
 ## Вход с keypad
 
-Избери ID на прожекцията от програмата. След точно 6 ASCII цифри изпрати:
+За бариера, която приема всички валидни неизползвани билети, след точно 6 ASCII цифри изпрати:
 
 ```http
 POST /api/validator/validate
 Authorization: Bearer DEVICE_KEY
 Content-Type: application/json
 
-{"ticket_code":"482617","showtime_id":123}
+{"ticket_code":"482617"}
 ```
 
-Работи и `POST /api/v1/devices/tickets/validate`. Успехът включва `valid:true`, `ticket_code`, `movie`, `seat`, `status:"used"`, `message`. Зелена светлина и отваряне на входа само при HTTP 200 и `valid:true`. Логическите откази са HTTP 200 с `valid:false`, `reason`, `message`: `invalid_code`, `wrong_showtime` (включително друга зала), `cancelled`, `expired`, `already_used`. Невалиден формат е 422, липсващ/отзован ключ — 401, грешна роля — 403, лимит — 429.
+`showtime_id` е опционален за device заявките; добави го само за вход за конкретна прожекция. Ограничението по зала на ключа се спазва и без него. Работи и `POST /api/v1/devices/tickets/validate`. Успехът включва `valid:true`, `ticket_code`, `movie`, `seat`, `status:"used"`, `message`. Зелена светлина и отваряне на входа само при HTTP 200 и `valid:true`. Логическите откази са HTTP 200 с `valid:false`, `reason`, `message`: `invalid_code`, `wrong_showtime` (включително друга зала), `cancelled`, `expired`, `already_used`. Невалиден формат е 422, липсващ/отзован ключ — 401, грешна роля — 403, лимит — 429.
 
 Проверката и маркирането са една транзакция. При два едновременни опита само единият успява. При изгубен успешен отговор повторният опит връща `already_used`; няма автоматично повторно отключване или офлайн разрешение. Не използвай локално копие като източник на истина.
 
@@ -64,4 +68,4 @@ Content-Type: application/json
 
 За физически Pi използвай LAN адрес или HTTPS домейн. Само при необходимост стартирай backend с `--host 0.0.0.0` в доверена мрежа; launcher слуша на localhost. За отдалечен достъп използвай HTTPS и проверка на сертификати.
 
-Firmware, keypad, дисплей, принтер и реална Wokwi симулация са следваща стъпка. API договорът и конкурентните проверки са тествани. Минимален клиент: [`hardware/raspberry-pi/validate_ticket.py`](../../hardware/raspberry-pi/validate_ticket.py), с URL, ключ и прожекция от environment.
+Готова MicroPython бариера с keypad, серво, два LED и бузер: [`hardware/wokwi/ticket-validator`](../../hardware/wokwi/ticket-validator/README.md). ESP32 терминалът е в [`hardware/wokwi/ticket-kiosk`](../../hardware/wokwi/ticket-kiosk/README.md). Минимален клиент за настолен Raspberry Pi: [`hardware/raspberry-pi/validate_ticket.py`](../../hardware/raspberry-pi/validate_ticket.py), с URL, ключ и прожекция от environment.

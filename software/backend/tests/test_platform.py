@@ -128,6 +128,42 @@ def test_access_control_and_favorites(viewer):
     assert client.get("/api/v1/me/favorites").json() == []
 
 
+def test_local_login_origins(viewer):
+    client, _ = viewer
+    for origin in (
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "http://localhost:4173",
+        "http://127.0.0.1:4173",
+    ):
+        response = client.post(
+            "/api/v1/auth/login",
+            headers={"Origin": origin},
+            json={"email": "viewer@example.com", "password": "TestPassword123!"},
+        )
+        assert response.status_code == 200, (origin, response.text)
+        assert client.get("/api/v1/me").status_code == 200
+    assert client.post(
+        "/api/v1/auth/logout",
+        headers={"Origin": "http://localhost:8000", "X-Requested-With": ""},
+    ).status_code == 403
+
+
+def test_production_login_origin_remains_restricted(setup, monkeypatch):
+    from app.core.config import settings
+
+    client, _ = setup
+    monkeypatch.setattr(settings, "environment", "production")
+    monkeypatch.setattr(settings, "public_origin", "https://cinema.example")
+    for origin in ("http://localhost:8000", "http://127.0.0.1:8000", "https://evil.example"):
+        assert client.post(
+            "/api/v1/auth/login", headers={"Origin": origin}, json={}
+        ).status_code == 403
+    assert client.post(
+        "/api/v1/auth/login", headers={"Origin": "https://cinema.example"}, json={}
+    ).status_code == 422
+
+
 def test_csrf_and_origin_rejected(viewer):
     client, _ = viewer
     assert (

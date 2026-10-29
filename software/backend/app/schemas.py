@@ -1,7 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 import re
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic import BaseModel, EmailStr, Field, field_validator, ConfigDict, StrictBool
 
 
 class Register(BaseModel):
@@ -58,6 +58,14 @@ class CheckoutInput(BaseModel):
     promo_code: str = Field(default="", max_length=40)
     terms: bool
     transaction_success: bool = False
+
+
+class TerminalCheckoutInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    hold_id: str = Field(min_length=1, max_length=64)
+    payment_success: StrictBool
+    promo_code: str = Field(default="", max_length=40)
+    terms: bool = True
 
 
 class PromoInput(BaseModel):
@@ -154,3 +162,9 @@ class UserRole(BaseModel):
 class TicketScan(BaseModel):
     ticket_code: str = Field(pattern=r"^[0-9]{6}$")
     showtime_id: int = Field(gt=0)
+
+
+class DeviceTicketScan(BaseModel):
+    model_config = {"extra": "forbid"}
+    ticket_code: str = Field(pattern=r"^[0-9]{6}$")
+    showtime_id: int | None = Field(default=None, gt=0)

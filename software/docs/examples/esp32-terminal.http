@@ -1,0 +1,46 @@
+@baseUrl = https://YOUR-TUNNEL.trycloudflare.com
+@deviceKey = YOUR_PRIVATE_KIOSK_KEY
+@movieId = 28
+@showtimeId = 149
+@seatId = 1
+@holdId = COPY_HOLD_ID_FROM_RESPONSE
+
+### Health
+GET {{baseUrl}}/api/v1/health
+
+### Movies
+GET {{baseUrl}}/api/v1/devices/movies
+Authorization: Bearer {{deviceKey}}
+
+### Date, time and free seat count
+GET {{baseUrl}}/api/v1/devices/showtimes?movie_id={{movieId}}&limit=10&offset=0
+Authorization: Bearer {{deviceKey}}
+
+### Seat map
+GET {{baseUrl}}/api/v1/devices/showtimes/{{showtimeId}}/seats
+Authorization: Bearer {{deviceKey}}
+
+### Hold (use seat id, not the visible row number)
+POST {{baseUrl}}/api/v1/devices/bookings/holds
+Authorization: Bearer {{deviceKey}}
+Content-Type: application/json
+
+{"showtime_id":{{showtimeId}},"seat_ids":[{{seatId}}]}
+
+### Successful local RFID reading — no card data sent
+POST {{baseUrl}}/api/v1/devices/payments/checkout
+Authorization: Bearer {{deviceKey}}
+Content-Type: application/json
+
+{"hold_id":"{{holdId}}","payment_success":true}
+
+### Final failure (a separate hold; do not use this after a successful purchase)
+POST {{baseUrl}}/api/v1/devices/payments/checkout
+Authorization: Bearer {{deviceKey}}
+Content-Type: application/json
+
+{"hold_id":"{{holdId}}","payment_success":false}
+
+### Release an unpaid hold
+DELETE {{baseUrl}}/api/v1/devices/bookings/holds/{{holdId}}
+Authorization: Bearer {{deviceKey}}

@@ -93,7 +93,7 @@ python -m app.cli create-admin --email you@example.com --name "Твоето им
 
 ## Проверки
 
-Последна проверка: **37 backend теста, 15 браузърни сценария и production build — успешно.** Подробности: [docs/verification.md](docs/verification.md).
+Последни проверки: **56 backend сценария, 15 браузърни сценария и production build (29.10.2026).** Подробности: [docs/verification.md](docs/verification.md).
 
 ```powershell
 npm run build
@@ -136,5 +136,7 @@ Playwright създава отделна SQLite тестова база в ло�
 `src/components/` — интерфейс, лого, навигация, карти и модали; `src/pages/` — публични страници и администрация; `src/lib/` — API и потребителски контекст; `public/images/originals/` — авторски SVG илюстрации; `backend/app/api/` — маршрути; `backend/app/services/` — резервации, сериализация и SMTP; `backend/app/core/` — настройки и security; `backend/app/models.py` — схема; `backend/alembic/` — миграция; `backend/tests/` и `e2e/` — проверки. Виж `docs/` за архитектура, API и deployment.
 
 ## Автомат и входен контрол
+
+Публичен HTTPS API с общата база на сайта и избор на филм/час/място. ESP32 потвърждава чрез `payment_success`, без картови данни: [docs/public-device-api.md](docs/public-device-api.md). Launcher: `python scripts/run_public_api.py --cloudflared PATH_TO_CLOUDFLARED`. Запази един и същ `DATABASE_URL` за сайта и gateway. Миграция `0004` премахва картовия регистър. Поръчките и историята на плащанията се запазват.
 
 [docs/devices.md](docs/devices.md) описва общия API за ESP32/Wokwi и Raspberry Pi, създаване/отзоваване на ключове, продажба от автомат и атомарно еднократно валидиране на код. Примерен Pi клиент: [`hardware/raspberry-pi/validate_ticket.py`](../hardware/raspberry-pi/validate_ticket.py). Firmware и реална Wokwi симулация са следващ етап.

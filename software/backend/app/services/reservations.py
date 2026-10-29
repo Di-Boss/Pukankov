@@ -230,8 +230,13 @@ def validate_promotion(db, code, user_id, subtotal):
     )
 
 
-def checkout(db, user_id, data):
-    if settings.payment_mode not in ("simulation", "demo"):
+def checkout(db, user_id, data, *, provider="card_simulator"):
+    if provider not in ("card_simulator", "terminal_signal"):
+        raise ValueError("Unsupported internal payment provider")
+    if provider == "card_simulator" and settings.payment_mode not in (
+        "simulation",
+        "demo",
+    ):
         raise HTTPException(
             503, "Реалните плащания не са конфигурирани. Не е извършено плащане."
         )
@@ -280,7 +285,7 @@ def checkout(db, user_id, data):
                 booking_id=b.id,
                 amount=b.total,
                 status="failed",
-                provider="card_simulator",
+                provider=provider,
             )
         )
         db.add(BookingEvent(booking_id=b.id, status="cancelled"))
@@ -293,8 +298,12 @@ def checkout(db, user_id, data):
             Payment(
                 booking_id=b.id,
                 amount=b.total,
-                status="simulated_success",
-                provider="card_simulator",
+                status=(
+                    "terminal_success"
+                    if provider == "terminal_signal"
+                    else "simulated_success"
+                ),
+                provider=provider,
             )
         )
         db.add(BookingEvent(booking_id=b.id, status="confirmed"))

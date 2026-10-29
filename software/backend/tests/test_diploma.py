@@ -173,7 +173,7 @@ def test_website_kiosk_and_keypad_share_inventory_and_tickets(viewer):
         ).status_code
         == 409
     )
-    data = {"hold_id": hold.json()["id"], "terms": True, "transaction_success": True}
+    data = {"hold_id": hold.json()["id"], "terms": True, "payment_success": True}
     purchased = client.post(
         "/api/v1/devices/payments/checkout", headers=kiosk_headers, json=data
     ).json()
