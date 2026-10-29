@@ -20,6 +20,8 @@ __pycache__/
 *.key
 secrets.h
 secrets.json
+*.private.json
+.local/
 
 # Generated verification artifacts
 .test-artifacts/
@@ -36,3 +38,11 @@ screenshots/
 Thumbs.db
 .idea/
 .vscode/
+
+# Device configuration and firmware build directories
+*.private.py
+*.private.txt
+.pio/
+*.elf
+*.hex
+*.bin

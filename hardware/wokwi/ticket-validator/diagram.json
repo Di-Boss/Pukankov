@@ -1,0 +1,38 @@
+
+{
+  "version": 1,
+  "author": "Marin Tonchev",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-pi-pico-w", "id": "pico", "top": -22.45, "left": -102.05, "attrs": { "env": "micropython-20260406-v1.28.0" } },
+    { "type": "wokwi-membrane-keypad", "id": "keypad1", "top": -299.6, "left": 303.2, "attrs": {} },
+    { "type": "wokwi-servo", "id": "servo1", "top": -309.2, "left": 57.6, "attrs": { "hornColor": "orange", "horn": "double" } },
+    { "type": "wokwi-buzzer", "id": "bz1", "top": -199.2, "left": -180.6, "attrs": { "volume": "0.1" } },
+    { "type": "wokwi-led", "id": "led1", "top": -397.2, "left": -226.6, "attrs": { "color": "red" } },
+    { "type": "wokwi-led", "id": "led2", "top": -387.6, "left": -82.6, "attrs": { "color": "green" } },
+    { "type": "wokwi-resistor", "id": "r1", "top": -341.65, "left": -172.8, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor", "id": "r2", "top": -341.65, "left": -19.2, "attrs": { "value": "220" } }
+  ],
+  "connections": [
+    [ "keypad1:R1", "pico:GP2", "gold", [ "v76.8", "h-355.2", "v-182.4", "h-201.6", "v96" ] ],
+    [ "keypad1:R2", "pico:GP3", "green", [ "v86.4", "h-394", "v-172.8", "h-163.2", "v96" ] ],
+    [ "keypad1:R3", "pico:GP4", "red", [ "v96", "h-432.3", "v-163.2", "h-115.2", "v76.8" ] ],
+    [ "keypad1:R4", "pico:GP5", "green", [ "v105.6", "h-432.2", "v-172.8", "h-172.8", "v86.4" ] ],
+    [ "keypad1:C1", "pico:GP6", "orange", [ "v144", "h-422.5", "v-249.6", "h-220.8", "v153.6" ] ],
+    [ "keypad1:C2", "pico:GP7", "blue", [ "v163.2", "h-441.6", "v-278.4", "h-249.6", "v201.6" ] ],
+    [ "keypad1:C3", "pico:GP8", "violet", [ "v153.6", "h-432.15", "v-268.8", "h-307.2", "v211.2" ] ],
+    [ "keypad1:C4", "pico:GP9", "white", [ "v163.2", "h-480.3", "v-288", "h-268.8", "v201.6" ] ],
+    [ "servo1:GND", "pico:GND.2", "black", [ "h-19.2", "v192", "h-259.2", "v86.4" ] ],
+    [ "servo1:PWM", "pico:GP15", "gold", [ "h-153.6", "v201.8", "h-86.4", "v172.8" ] ],
+    [ "servo1:V+", "pico:VBUS", "red", [ "h-67.2", "v278.5", "h-19.2" ] ],
+    [ "bz1:2", "pico:GP14", "green", [ "v0" ] ],
+    [ "bz1:1", "pico:GND.1", "black", [ "v0" ] ],
+    [ "led2:A", "r2:1", "red", [ "v0" ] ],
+    [ "r2:2", "pico:GP13", "red", [ "v48", "h-356.4", "v422.4" ] ],
+    [ "led2:C", "pico:GND.4", "black", [ "v105.6", "h-297.2", "v393.6" ] ],
+    [ "led1:A", "r1:1", "yellow", [ "v0" ] ],
+    [ "r1:2", "pico:GP12", "gold", [ "v0" ] ],
+    [ "led1:C", "pico:GND.7", "black", [ "v144", "h346", "v144" ] ]
+  ],
+  "dependencies": {}
+}

@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "author": "Marin Tonchev",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-breadboard",
+      "id": "bb1",
+      "top": 20,
+      "left": 233.2,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-arduino-mega",
+      "id": "mega",
+      "top": 250,
+      "left": 250,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo1",
+      "top": -222.8,
+      "left": 48,
+      "attrs": {
+        "hornColor": "green"
+      }
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo2",
+      "top": -126.8,
+      "left": 48,
+      "attrs": {
+        "hornColor": "red"
+      }
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo3",
+      "top": -424.4,
+      "left": 48,
+      "attrs": {
+        "hornColor": "orange"
+      }
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo4",
+      "top": -328.4,
+      "left": 48,
+      "attrs": {
+        "hornColor": "purple"
+      }
+    },
+    {
+      "type": "wokwi-stepper-motor",
+      "id": "stepper1",
+      "top": -389.99,
+      "left": 442.03,
+      "attrs": {
+        "size": "17"
+      }
+    },
+    {
+      "type": "wokwi-stepper-motor",
+      "id": "stepper2",
+      "top": -389.99,
+      "left": 250.03,
+      "attrs": {
+        "size": "17"
+      }
+    },
+    {
+      "type": "wokwi-stepper-motor",
+      "id": "stepper3",
+      "top": -389.99,
+      "left": 806.83,
+      "attrs": {
+        "size": "17"
+      }
+    },
+    {
+      "type": "wokwi-stepper-motor",
+      "id": "stepper4",
+      "top": -389.99,
+      "left": 624.43,
+      "attrs": {
+        "size": "17"
+      }
+    },
+    {
+      "type": "wokwi-a4988",
+      "id": "driver1",
+      "top": -150,
+      "left": 462.03,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-a4988",
+      "id": "driver2",
+      "top": -150,
+      "left": 270.03,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-a4988",
+      "id": "driver3",
+      "top": -150,
+      "left": 826.83,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-a4988",
+      "id": "driver4",
+      "top": -150,
+      "left": 644.43,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    ["mega:5V", "bb1:tp.1", "red", []],
+    ["mega:GND.1", "bb1:tn.1", "black", []],
+    ["servo1:V+", "bb1:tp.2", "red", []],
+    ["servo1:GND", "bb1:tn.2", "black", []],
+    ["servo1:PWM", "mega:2", "green", []],
+    ["servo2:V+", "bb1:tp.3", "red", []],
+    ["servo2:GND", "bb1:tn.3", "black", []],
+    ["servo2:PWM", "mega:3", "red", []],
+    ["servo3:V+", "bb1:tp.4", "red", []],
+    ["servo3:GND", "bb1:tn.4", "black", []],
+    ["servo3:PWM", "mega:4", "orange", []],
+    ["servo4:V+", "bb1:tp.5", "red", []],
+    ["servo4:GND", "bb1:tn.5", "black", []],
+    ["servo4:PWM", "mega:5", "purple", []],
+    ["driver1:VDD", "bb1:tp.6", "red", []],
+    ["driver1:GND.1", "bb1:tn.6", "black", []],
+    ["driver1:GND.2", "bb1:tn.10", "black", []],
+    ["driver1:SLEEP", "bb1:tp.10", "red", []],
+    ["driver1:RESET", "bb1:tp.14", "red", []],
+    ["driver1:MS1", "bb1:tn.14", "black", []],
+    ["driver1:MS2", "bb1:tn.15", "black", []],
+    ["driver1:MS3", "bb1:tn.16", "black", []],
+    ["driver1:STEP", "mega:22", "green", []],
+    ["driver1:DIR", "mega:23", "blue", []],
+    ["driver1:ENABLE", "mega:30", "orange", []],
+    ["driver1:1B", "stepper1:B-", "purple", []],
+    ["driver1:1A", "stepper1:B+", "blue", []],
+    ["driver1:2A", "stepper1:A+", "green", []],
+    ["driver1:2B", "stepper1:A-", "orange", []],
+    ["driver2:VDD", "bb1:tp.7", "red", []],
+    ["driver2:GND.1", "bb1:tn.7", "black", []],
+    ["driver2:GND.2", "bb1:tn.11", "black", []],
+    ["driver2:SLEEP", "bb1:tp.11", "red", []],
+    ["driver2:RESET", "bb1:tp.15", "red", []],
+    ["driver2:MS1", "bb1:tn.17", "black", []],
+    ["driver2:MS2", "bb1:tn.18", "black", []],
+    ["driver2:MS3", "bb1:tn.19", "black", []],
+    ["driver2:STEP", "mega:24", "green", []],
+    ["driver2:DIR", "mega:25", "blue", []],
+    ["driver2:ENABLE", "mega:31", "orange", []],
+    ["driver2:1B", "stepper2:B-", "purple", []],
+    ["driver2:1A", "stepper2:B+", "blue", []],
+    ["driver2:2A", "stepper2:A+", "green", []],
+    ["driver2:2B", "stepper2:A-", "orange", []],
+    ["driver3:VDD", "bb1:tp.8", "red", []],
+    ["driver3:GND.1", "bb1:tn.8", "black", []],
+    ["driver3:GND.2", "bb1:tn.12", "black", []],
+    ["driver3:SLEEP", "bb1:tp.12", "red", []],
+    ["driver3:RESET", "bb1:tp.16", "red", []],
+    ["driver3:MS1", "bb1:tn.20", "black", []],
+    ["driver3:MS2", "bb1:tn.21", "black", []],
+    ["driver3:MS3", "bb1:tn.22", "black", []],
+    ["driver3:STEP", "mega:26", "green", []],
+    ["driver3:DIR", "mega:27", "blue", []],
+    ["driver3:ENABLE", "mega:32", "orange", []],
+    ["driver3:1B", "stepper3:B-", "purple", []],
+    ["driver3:1A", "stepper3:B+", "blue", []],
+    ["driver3:2A", "stepper3:A+", "green", []],
+    ["driver3:2B", "stepper3:A-", "orange", []],
+    ["driver4:VDD", "bb1:tp.9", "red", []],
+    ["driver4:GND.1", "bb1:tn.9", "black", []],
+    ["driver4:GND.2", "bb1:tn.13", "black", []],
+    ["driver4:SLEEP", "bb1:tp.13", "red", []],
+    ["driver4:RESET", "bb1:tp.17", "red", []],
+    ["driver4:MS1", "bb1:tn.23", "black", []],
+    ["driver4:MS2", "bb1:tn.24", "black", []],
+    ["driver4:MS3", "bb1:tn.25", "black", []],
+    ["driver4:STEP", "mega:28", "green", []],
+    ["driver4:DIR", "mega:29", "blue", []],
+    ["driver4:ENABLE", "mega:33", "orange", []],
+    ["driver4:1B", "stepper4:B-", "purple", []],
+    ["driver4:1A", "stepper4:B+", "blue", []],
+    ["driver4:2A", "stepper4:A+", "green", []],
+    ["driver4:2B", "stepper4:A-", "orange", []]
+  ],
+  "dependencies": {}
+}

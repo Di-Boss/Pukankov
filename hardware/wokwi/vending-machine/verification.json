@@ -1,0 +1,18 @@
+{
+  "checked_on": "2026-10-29",
+  "source_sha256": "3896b0a3540939c10c93373cf9b8c93eef7ef4ed7c8c43401bceedb44a3e13f1",
+  "board": "arduino:avr:mega",
+  "avr_core": "1.8.6",
+  "compiler": "AVR-GCC 7.3.0",
+  "compile_and_link": "passed; direct compiler with Arduino sketch preprocessing",
+  "translation_units": 35,
+  "flash_bytes": 27362,
+  "ram_bytes": 2242,
+  "diagram_lint": {
+    "errors": 0,
+    "warnings": 0,
+    "info": 1
+  },
+  "physical_hardware_tested": false,
+  "dispensing_accuracy_measured": false
+}

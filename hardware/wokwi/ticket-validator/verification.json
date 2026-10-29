@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-29",
+  "firmware": "pico-gate-3",
+  "micropython": "1.28.0",
+  "tls_certificate_verification": false,
+  "sha256": {
+    "main.py": "379d6ad767b7fb7e162879ba405ed3046ab6576743795f027d5dcb74fe6cc0c0",
+    "diagram.json": "716fe4401491f2e7b0e77187d956049ecdad8f63baf1ba4642dab0dab58b9627"
+  },
+  "backend_tests_passed": 56,
+  "controller_protocol_tests_passed": 13,
+  "wokwi_lint": {
+    "errors": 0,
+    "warnings": 0,
+    "info": "Pico W is recognized as an undocumented part by CLI 0.29.1"
+  },
+  "wokwi_hardware_test": {
+    "method": "Isolated REPL exercise of production GateController and Hardware; no API grant stub shipped",
+    "sample_ms": [
+      0,
+      262,
+      503,
+      754,
+      1005,
+      4991,
+      5002,
+      5503
+    ],
+    "red": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "green": [
+      1,
+      0,
+      1,
+      0,
+      1,
+      1,
+      0,
+      0
+    ],
+    "servo_angle": [
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      0,
+      0
+    ],
+    "servo_pwm_hz": 50
+  },
+  "public_api_pc_check": {
+    "http": 200,
+    "reason": "invalid_code",
+    "ticket_code": "000000"
+  },
+  "native_pico_public_api_verified": false,
+  "live_valid_customer_ticket_consumed": false,
+  "physical_hardware_tested": false,
+  "integration": "Imported supplied Wokwi project; embedded credential removed; runtime configuration enabled"
+}

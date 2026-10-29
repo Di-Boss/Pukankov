@@ -1,0 +1,6 @@
+Adafruit GFX Library
+Adafruit ILI9341
+Adafruit FT6206 Library
+U8g2_for_Adafruit_GFX
+MFRC522
+ArduinoJson

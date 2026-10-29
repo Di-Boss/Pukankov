@@ -1,0 +1,28 @@
+{
+  "checked_on": "2026-10-28",
+  "board": "board-esp32-devkit-c-v4",
+  "source_sha256": "9984d33480229f45df94d9aacafd90cf82d897273fc21495affe659367be1211",
+  "components": 9,
+  "connections": 31,
+  "firmware_version": "kiosk-9",
+  "max_seats_per_purchase": 8,
+  "wokwi_web_compilation": "passed",
+  "wokwi_startup": "CONFIG_REQUIRED reached",
+  "lcd_cyrillic": "observed",
+  "diagram_lint": {
+    "errors": 0,
+    "warnings": 0,
+    "info": 3
+  },
+  "movies_loaded_in_wokwi": false,
+  "https_authentication": "hostname-bound SHA256 pin and certificate dates for ngrok; CA for other hosts",
+  "tls_baseline": "v8 connection confirmed by the user; TLS logic retained",
+  "selection_limit_toggle_and_total_ui_tests": true,
+  "eight_receipts_paging_and_nvs_restore_ui_tests": true,
+  "yellow_button_text_visually_checked": true,
+  "isolated_backend_eight_seat_checkout_and_idempotency": true,
+  "full_purchase_test": "not completed; movies API connectivity is checked separately",
+  "device_key_in_source": false,
+  "uid_in_payment_payload": false,
+  "physical_hardware_tested": false
+}
